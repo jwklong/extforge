@@ -58,6 +58,7 @@
         <block type="math_or" />
         <block type="math_not" />
         <sep gap="48"></sep>
+        <block type="math_inequals" />
         <block type="math_equals" />
         <block type="math_gt" />
         <block type="math_gte" />
