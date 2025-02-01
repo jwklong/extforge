@@ -371,6 +371,34 @@ function register() {
         const code = `(${X} == ${Y})`;
         return [`${code}`, 0];
     })
+
+    registerBlock(`${categoryPrefix}inequals`, {
+        message0: '%1 ≠ %2',
+        args0: [
+            {
+                "type": "field_input",
+                "name": "X",
+                "check": null,
+                "text": "foo",
+                "acceptsBlocks": true
+            },
+            {
+                "type": "field_input",
+                "name": "Y",
+                "check": null,
+                "text": "bar",
+                "acceptsBlocks": true
+            }
+        ],
+        output: "Boolean",
+        inputsInline: true,
+        colour: categoryColor
+    }, (block) => {
+        const X = javascriptGenerator.valueToCode(block, 'X');
+        const Y = javascriptGenerator.valueToCode(block, 'Y');
+        const code = `(${X} != ${Y})`;
+        return [`${code}`, 0];
+    })
     
     registerBlock(`${categoryPrefix}gte`, {
         message0: '%1 >= %2',
