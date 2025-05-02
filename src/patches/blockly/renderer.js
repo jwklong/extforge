@@ -18,6 +18,33 @@ class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
         this.ADD_START_HATS = true
         
         this.PLUS = this.makePlus()
+        this.ARROW = this.makeArrow();
+    }
+
+    /** @returns {import("blockly/core/renderers/common/constants").Shape} */
+    makeArrow() {
+        const maxWidth = this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;
+        return {
+            type: this.SHAPES.HEXAGONAL,
+            isDynamic: true,
+            width(height) {
+                const halfHeight = height / 2;
+                return halfHeight > maxWidth ? maxWidth : halfHeight
+            },
+            height(height) {
+                return height;
+            },
+            connectionOffsetY(connectionHeight) {
+                return connectionHeight / 2;
+            },
+            connectionOffsetX(connectionWidth) {
+                return -connectionWidth;
+            },
+            pathDown: this.SQUARED.pathDown,
+            pathUp: this.SQUARED.pathUp,
+            pathRightDown: this.HEXAGONAL.pathRightDown,
+            pathRightUp: this.HEXAGONAL.pathRightUp
+        }
     }
 
     /** @returns {import("blockly/core/renderers/common/constants").Shape} */
@@ -103,6 +130,8 @@ class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
         if (connection.type == Blockly.ConnectionType.INPUT_VALUE || connection.type == Blockly.ConnectionType.OUTPUT_VALUE) {
             if (checks && checks.length > 1) {
                 return this.ROUNDED;
+            } else if (checks && checks.includes('Sprite')) {
+                return this.ARROW;
             } else if (checks && checks.includes('List')) {
                 return this.PLUS;
             } else if (checks && checks.includes('String')) {
