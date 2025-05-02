@@ -135,7 +135,7 @@ class Compiler {
                 workspace.getTopBlocks().find(v => v.type == "blocks_define" && v.blockId_ == id),
                 "BLOCKS"
             )
-            return `async block_${id}(args) { ${blockCode} }`
+            return `async block_${id}(args, blockUtils) { ${blockCode} }`
         }), classRegistry.bottom, code, footerCode).join('\n');
     }
 }

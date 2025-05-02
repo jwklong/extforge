@@ -114,6 +114,10 @@
             </value>
         </block>
     </category>
+    <category name="Sprites" colour="#18f">
+        <block type="sprites_stage"/>
+        <block type="sprites_getSpriteFromName"/>
+    </category>
     <category name="Blocks" colour="#b6f" custom="blocks">
         <!-- resources/categories/blocks.js -->
     </category>

@@ -6,6 +6,7 @@ import registerStrings from "./strings";
 import registerInputs from "./inputs";
 import registerVariables from "./variables";
 import registerLists from "./lists";
+import registerSprites from "./sprites";
 import registerBlocks from "./blocks";
 
 import registerRuntime from "./runtime";
@@ -20,6 +21,7 @@ export default () => {
     registerInputs();
     registerVariables();
     registerLists();
+    registerSprites();
     registerBlocks();
 
     registerRuntime();
