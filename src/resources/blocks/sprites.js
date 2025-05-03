@@ -31,7 +31,7 @@ function register() {
       colour: categoryColor
     }, (block) => {
       const INPUT = javascriptGenerator.valueToCode(block, 'NAME');
-      return [`(()=>{const name = String(${INPUT}); const res = Scratch.vm.runtime.getSpriteTargetByName(name); if (!res) throw "Unable to find sprite named " + name; return res;})()`, 0]
+      return [`Scratch.vm.runtime.getSpriteTargetByName(${INPUT})`, 0]
     })
     registerBlock(`${categoryPrefix}getSpriteThatRanBlock`, {
       message0: "sprite that ran this block",
@@ -40,7 +40,7 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      return [`(()=>{if(typeof blockUtils === "undefined")throw "This only works inside blocks ran by sprites";return blockUtils.target})()`, 0]
+      return [`(()=>{if(typeof blockUtils === "undefined")return null;else return blockUtils.target})()`, 0]
     })
     registerBlock(`${categoryPrefix}getListOfSprites`, {
       message0: "get list of all sprites/clones",
@@ -49,7 +49,7 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      return [`(new Proxy(Scratch.vm.runtime.executableTargets, {set: ()=>{throw "The list of all sprites is not mutable";}}))`, 0]
+      return [`(new Proxy(Scratch.vm.runtime.executableTargets, {set: ()=>{}}))`, 0]
     })
     registerBlock(`${categoryPrefix}getClonesOfSprite`, {
       message0: "clones of %1 (including itself)",
@@ -64,8 +64,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`(new Proxy(${SPRITE}.sprite.clones, {set: ()=>{throw "The list of clones of a sprite is not mutable";}}))`, 0]
+      const SPRITE = `(${javascriptGenerator.valueToCode(block, 'SPRITE') || "null"})`;
+      return [`((spriteVariable)=>spriteVariable?(new Proxy(spriteVariable.sprite.clones, {set: ()=>{}})):[])(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}getNameOfSprite`, {
       message0: "get name of %1",
@@ -80,8 +80,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`${SPRITE}.getName()`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`((spriteVariable)=>spriteVariable?spriteVariable.getName():"")(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}getIdOfSprite`, {
       message0: "get id of %1",
@@ -96,8 +96,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`${SPRITE}.id`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`((spriteVariable)=>spriteVariable?spriteVariable.id:"")(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}getXposOfSprite`, {
       message0: "get x position of %1",
@@ -112,8 +112,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`${SPRITE}.x`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`((spriteVariable)=>spriteVariable?spriteVariable.x:NaN)(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}getYposOfSprite`, {
       message0: "get y position of %1",
@@ -128,8 +128,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`${SPRITE}.y`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`((spriteVariable)=>spriteVariable?spriteVariable.y:NaN)(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}getDirectionOfSprite`, {
       message0: "get direction of %1",
@@ -144,8 +144,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`${SPRITE}.direction`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`((spriteVariable)=>spriteVariable?spriteVariable.direction:NaN)(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}setXposOfSprite`, {
       message0: 'set x position of %1 to %2',
@@ -168,9 +168,9 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `((spriteVariable)=>spriteVariable.setXY(Scratch.Cast.toNumber(${VALUE}), spriteVariable.y))(${SPRITE})`;
+        const code = `((spriteVariable)=>spriteVariable?spriteVariable.setXY(Scratch.Cast.toNumber(${VALUE}), spriteVariable.y):0)(${SPRITE})`;
         return `${code}\n`;
     })
     registerBlock(`${categoryPrefix}setYposOfSprite`, {
@@ -194,9 +194,9 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `((spriteVariable)=>spriteVariable.setXY(spriteVariable.x, Scratch.Cast.toNumber(${VALUE})))(${SPRITE})`;
+        const code = `((spriteVariable)=>spriteVariable?spriteVariable.setXY(spriteVariable.x, Scratch.Cast.toNumber(${VALUE})):0)(${SPRITE})`;
         return `${code}\n`;
     })
     registerBlock(`${categoryPrefix}setDirectionOfSprite`, {
@@ -220,9 +220,9 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `((spriteVariable)=>spriteVariable.setDirection(Scratch.Cast.toNumber(${VALUE})))(${SPRITE})`;
+        const code = `((spriteVariable)=>spriteVariable?spriteVariable.setDirection(Scratch.Cast.toNumber(${VALUE})):0)(${SPRITE})`;
         return `${code}\n`;
     })
     registerBlock(`${categoryPrefix}hasSpriteBeenDeleted`, {
@@ -238,8 +238,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`(Scratch.vm.runtime.executableTargets.indexOf(${SPRITE}) !== -1)`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`((spriteVariable)=>spriteVariable?Scratch.vm.runtime.executableTargets.indexOf(spriteVariable) !== -1:true)(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}isSpriteAClone`, {
       message0: "is %1 a clone?",
@@ -254,8 +254,8 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
-      return [`!(${SPRITE}.isOriginal)`, 0]
+      const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
+      return [`!((spriteVariable)=>spriteVariable?spriteVariable.isOriginal:true)(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}getVarOfSprite`, {
       message0: 'get variable %1 of %2',
@@ -277,9 +277,9 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        return [`((${SPRITE}.lookupVariableByNameAndType(String(${VALUE})) || {value: 0}).value)`, 0]
+        return [`((spriteVariable)=>spriteVariable?(spriteVariable.lookupVariableByNameAndType(String(${VALUE})) || {value: 0}).value:NaN)(${SPRITE})`, 0]
     })
     registerBlock(`${categoryPrefix}setVarOfSprite`, {
       message0: 'set variable %1 of %2 to %3',
@@ -309,10 +309,10 @@ function register() {
       inputsInline: true,
       colour: categoryColor
     }, (block) => {
-        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const INPUT = javascriptGenerator.valueToCode(block, 'INPUT');
         const VALUE = javascriptGenerator.valueToCode(block, 'VALUE')
-        return `((${SPRITE}.lookupVariableByNameAndType(String(${INPUT})) || {value: 0}).value = String(${VALUE}))`
+        return `((spriteVariable)=>spriteVariable?(spriteVariable.lookupVariableByNameAndType(String(${INPUT})) || {value: 0}).value = String(${VALUE}):0)(${SPRITE})`
     })
 }
 
