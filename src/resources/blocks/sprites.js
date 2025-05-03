@@ -6,26 +6,6 @@ const categoryPrefix = 'sprites_';
 const categoryColor = '#18f';
 
 function register() {
-    /*registerBlock(`${categoryPrefix}evalb`, {
-        message0: 'eval %1',
-        args0: [
-            {
-                "type": "field_input",
-                "name": "INPUT",
-                "check": "String",
-                "text": "alert(\"hi\")",
-                "acceptsBlocks": true
-            },
-        ],
-        previousStatement: null,
-        nextStatement: null,
-        inputsInline: true,
-        colour: categoryColor
-    }, (block) => {
-        const INPUT = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `eval(${INPUT})`;
-        return `${code}\n`;
-    })*/
     registerBlock(`${categoryPrefix}stage`, {
         message0: 'stage sprite',
         args0: [],
@@ -276,6 +256,63 @@ function register() {
     }, (block) => {
       const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
       return [`!(${SPRITE}.isOriginal)`, 0]
+    })
+    registerBlock(`${categoryPrefix}getVarOfSprite`, {
+      message0: 'get variable %1 of %2',
+      args0: [
+        {
+          "type": "field_input",
+          "name": "INPUT",
+          "check": null,
+          "text": "my sprite-only variable",
+          "acceptsBlocks": true
+        },
+        {
+          "type": "input_value",
+          "name": "SPRITE",
+          "check": "Sprite",
+        }, 
+      ],
+      output: null,
+      inputsInline: true,
+      colour: categoryColor
+    }, (block) => {
+        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+        const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
+        return [`((${SPRITE}.lookupVariableByNameAndType(String(${VALUE})) || {value: 0}).value)`, 0]
+    })
+    registerBlock(`${categoryPrefix}setVarOfSprite`, {
+      message0: 'set variable %1 of %2 to %3',
+      args0: [
+        {
+          "type": "field_input",
+          "name": "INPUT",
+          "check": null,
+          "text": "my sprite-only variable",
+          "acceptsBlocks": true
+        },
+        {
+          "type": "input_value",
+          "name": "SPRITE",
+          "check": "Sprite",
+        }, 
+        {
+          "type": "field_input",
+          "name": "VALUE",
+          "check": null,
+          "text": "0",
+          "acceptsBlocks": true
+        },
+      ],
+      previousStatement: null,
+      nextStatement: null,
+      inputsInline: true,
+      colour: categoryColor
+    }, (block) => {
+        const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "ExtForge.Utils.throw('Sprite inputs MUST have a sprite inside them')";
+        const INPUT = javascriptGenerator.valueToCode(block, 'INPUT');
+        const VALUE = javascriptGenerator.valueToCode(block, 'VALUE')
+        return `((${SPRITE}.lookupVariableByNameAndType(String(${INPUT})) || {value: 0}).value = String(${VALUE}))`
     })
 }
 

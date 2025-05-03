@@ -135,6 +135,9 @@
         <sep gap="48"></sep>
         <block type="sprites_hasSpriteBeenDeleted"/>
         <block type="sprites_isSpriteAClone"/>
+        <sep gap="48"></sep>
+        <block type="sprites_getVarOfSprite"/>
+        <block type="sprites_setVarOfSprite"/>
     </category>
     <category name="Blocks" colour="#b6f" custom="blocks">
         <!-- resources/categories/blocks.js -->
