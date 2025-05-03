@@ -117,6 +117,7 @@
     <category name="Sprites" colour="#18f">
         <block type="sprites_stage"/>
         <block type="sprites_getSpriteFromName"/>
+        <block type="sprites_doesSpriteWithNameExist"/>
         <block type="sprites_getSpriteThatRanBlock"/>
         <sep gap="48"></sep>
         <block type="sprites_getListOfSprites"/>

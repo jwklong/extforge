@@ -33,6 +33,24 @@ function register() {
       const INPUT = javascriptGenerator.valueToCode(block, 'NAME');
       return [`Scratch.vm.runtime.getSpriteTargetByName(String(${INPUT}))`, 0]
     })
+    registerBlock(`${categoryPrefix}doesSpriteWithNameExist`, {
+      message0: "is there a sprite named %1?",
+      args0: [
+        {
+          "type": "field_input",
+          "name": "NAME",
+          "check": "String",
+          "text": "Sprite1",
+          "acceptsBlocks": true
+        }
+      ],
+      output: "Boolean",
+      inputsInline: true,
+      colour: categoryColor
+    }, (block) => {
+      const INPUT = javascriptGenerator.valueToCode(block, 'NAME');
+      return [`!!Scratch.vm.runtime.getSpriteTargetByName(String(${INPUT}))`, 0]
+    })
     registerBlock(`${categoryPrefix}getSpriteThatRanBlock`, {
       message0: "sprite that ran this block",
       args0: [],
