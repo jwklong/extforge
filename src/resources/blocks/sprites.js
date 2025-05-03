@@ -31,7 +31,7 @@ function register() {
       colour: categoryColor
     }, (block) => {
       const INPUT = javascriptGenerator.valueToCode(block, 'NAME');
-      return [`Scratch.vm.runtime.getSpriteTargetByName(${INPUT})`, 0]
+      return [`Scratch.vm.runtime.getSpriteTargetByName(String(${INPUT}))`, 0]
     })
     registerBlock(`${categoryPrefix}getSpriteThatRanBlock`, {
       message0: "sprite that ran this block",
@@ -170,7 +170,7 @@ function register() {
     }, (block) => {
         const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `((spriteVariable)=>spriteVariable?spriteVariable.setXY(Scratch.Cast.toNumber(${VALUE}), spriteVariable.y):0)(${SPRITE})`;
+        const code = `((spriteVariable)=>(spriteVariable?spriteVariable.setXY(Scratch.Cast.toNumber(${VALUE}), spriteVariable.y):0))(${SPRITE});`;
         return `${code}\n`;
     })
     registerBlock(`${categoryPrefix}setYposOfSprite`, {
@@ -191,12 +191,12 @@ function register() {
       ],
       previousStatement: null,
       nextStatement: null,
-      inputsInline: true,
+      inputsInline: true, 
       colour: categoryColor
     }, (block) => {
       const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `((spriteVariable)=>spriteVariable?spriteVariable.setXY(spriteVariable.x, Scratch.Cast.toNumber(${VALUE})):0)(${SPRITE})`;
+        const code = `((spriteVariable)=>(spriteVariable?spriteVariable.setXY(spriteVariable.x, Scratch.Cast.toNumber(${VALUE})):0))(${SPRITE});`;
         return `${code}\n`;
     })
     registerBlock(`${categoryPrefix}setDirectionOfSprite`, {
@@ -222,7 +222,7 @@ function register() {
     }, (block) => {
       const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const VALUE = javascriptGenerator.valueToCode(block, 'INPUT');
-        const code = `((spriteVariable)=>spriteVariable?spriteVariable.setDirection(Scratch.Cast.toNumber(${VALUE})):0)(${SPRITE})`;
+        const code = `((spriteVariable)=>(spriteVariable?spriteVariable.setDirection(Scratch.Cast.toNumber(${VALUE})):0))(${SPRITE});`;
         return `${code}\n`;
     })
     registerBlock(`${categoryPrefix}hasSpriteBeenDeleted`, {
@@ -312,7 +312,7 @@ function register() {
         const SPRITE = javascriptGenerator.valueToCode(block, 'SPRITE') || "null";
         const INPUT = javascriptGenerator.valueToCode(block, 'INPUT');
         const VALUE = javascriptGenerator.valueToCode(block, 'VALUE')
-        return `((spriteVariable)=>spriteVariable?(spriteVariable.lookupVariableByNameAndType(String(${INPUT})) || {value: 0}).value = String(${VALUE}):0)(${SPRITE})`
+        return `((spriteVariable)=>(spriteVariable?(spriteVariable.lookupVariableByNameAndType(String(${INPUT})) || {value: 0}).value = String(${VALUE}):0))(${SPRITE});`
     })
 }
 

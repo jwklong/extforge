@@ -42,6 +42,7 @@ const ExtForge = {
         countString: (x, y) => {
             return y.length == 0 ? 0 : x.split(y).length - 1
         },
+        log: (v) => (console.log(v), v),
         throw: function(err) {
             throw err;
         }
