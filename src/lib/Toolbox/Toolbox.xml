@@ -117,6 +117,24 @@
     <category name="Sprites" colour="#18f">
         <block type="sprites_stage"/>
         <block type="sprites_getSpriteFromName"/>
+        <block type="sprites_getSpriteThatRanBlock"/>
+        <sep gap="48"></sep>
+        <block type="sprites_getListOfSprites"/>
+        <block type="sprites_getClonesOfSprite"/>
+        <sep gap="48"></sep>
+        <block type="sprites_getNameOfSprite"/>
+        <block type="sprites_getIdOfSprite"/>
+        <sep gap="48"></sep>
+        <block type="sprites_getXposOfSprite"/>
+        <block type="sprites_getYposOfSprite"/>
+        <block type="sprites_getDirectionOfSprite"/>
+        <sep gap="48"></sep>
+        <block type="sprites_setXposOfSprite"/>
+        <block type="sprites_setYposOfSprite"/>
+        <block type="sprites_setDirectionOfSprite"/>
+        <sep gap="48"></sep>
+        <block type="sprites_hasSpriteBeenDeleted"/>
+        <block type="sprites_isSpriteAClone"/>
     </category>
     <category name="Blocks" colour="#b6f" custom="blocks">
         <!-- resources/categories/blocks.js -->

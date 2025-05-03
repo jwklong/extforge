@@ -24,6 +24,20 @@ class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
     /** @returns {import("blockly/core/renderers/common/constants").Shape} */
     makeArrow() {
         const maxWidth = this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;
+        // try to get rid of the VERY noticeable gap
+        function makeLeftPath(height, up) {
+            const halfHeight = height / 2;
+            const width = halfHeight > maxWidth ? maxWidth : halfHeight;
+            const forward = up ? -1 : 1;
+            const direction = 1;
+            const dy = (forward * height) / 2;
+            return (
+                svgPaths.lineOnAxis("h", -width) +
+                svgPaths.lineOnAxis("v", dy * 2)
+                //svgPaths.lineTo(-width, up ? (forward * height) : 0) +
+                //svgPaths.lineOnAxis("v", dy)
+            );
+        }
         return {
             type: this.SHAPES.HEXAGONAL,
             isDynamic: true,
@@ -40,8 +54,8 @@ class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
             connectionOffsetX(connectionWidth) {
                 return -connectionWidth;
             },
-            pathDown: this.SQUARED.pathDown,
-            pathUp: this.SQUARED.pathUp,
+            pathDown: (height) => makeLeftPath(height, false), //this.SQUARED.pathDown,
+            pathUp: (height) => makeLeftPath(height, true), //this.SQUARED.pathUp,
             pathRightDown: this.HEXAGONAL.pathRightDown,
             pathRightUp: this.HEXAGONAL.pathRightUp
         }
