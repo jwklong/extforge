@@ -45,6 +45,7 @@
         <block type="math_mul" />
         <block type="math_div" />
         <block type="math_pow" />
+        <block type="math_mod" />
         <block type="math_log" />
         <sep gap="48"></sep>
         <block type="math_random" />
