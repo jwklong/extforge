@@ -131,12 +131,14 @@ class Compiler {
                     switch (v.type) {
                         case 'string': {
                             return [v.id, {
-                                type: "string"
+                                type: "string",
+                                defaultValue: v.default
                             }]
                         }
                         case 'number': {
                             return [v.id, {
-                                type: "number"
+                                type: "number",
+                                defaultValue: Number(v.default) || 0
                             }]
                         }
                         case 'boolean': {

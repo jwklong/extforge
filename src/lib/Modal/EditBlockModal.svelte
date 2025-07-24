@@ -112,7 +112,21 @@
                                 updateBlocks(data)
                             }} />
                         </td>
-                        <td></td>
+                        <td>
+                            {#if data.tempBlock.fields[i].type == "string"}
+                                <input type="text" value={data.tempBlock.fields[i].default ?? ""} placeholder="Default value" on:change={(e) => {
+                                    data.tempBlock.fields[i].default = e.target.value
+                                    data.update()
+                                    updateBlocks(data)
+                                }} />
+                            {:else if data.tempBlock.fields[i].type == "number"}
+                                <input type="number" value={data.tempBlock.fields[i].default ?? ""} placeholder="Default value" on:change={(e) => {
+                                    data.tempBlock.fields[i].default = e.target.value
+                                    data.update()
+                                    updateBlocks(data)
+                                }} />
+                            {/if}
+                        </td>
                         <td>
                             <button on:click={() => {
                                 data.tempBlock.fields.splice(i, 1)
@@ -181,6 +195,7 @@
 
     :is(input, select):only-child {
         width: 100%;
+        box-sizing: border-box;
     }
 
     .bottom {
