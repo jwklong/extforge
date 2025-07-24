@@ -125,6 +125,9 @@
             </value>
         </block>
     </category>
+    <category name="Lambdas" colour="#d46">
+
+    </category>
     <category name="Blocks" colour="#b6f" custom="blocks">
         <!-- resources/categories/blocks.js -->
     </category>
@@ -164,6 +167,9 @@
         <block type="runtime_frameget" />
         <sep gap="48"></sep>
         <block type="runtime_broadcast" />
+    </category>
+    <category name="Targets" colour="#46d">
+
     </category>
     <category name="Browser" colour="#9d5">
         <block type="script_evalb" />
