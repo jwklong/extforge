@@ -55,7 +55,6 @@
     collapse: true,
     comments: true,
     scrollbars: true,
-    disable: false,
     renderer: "custom_renderer",
     zoom: {
       controls: true,
@@ -183,7 +182,7 @@
     updateTheme();
 
     workspace.addChangeListener(event => {
-      Blockly.Events.disableOrphans(event);
+      //Blockly.Events.disableOrphans(event);
       updateGeneratedCode();
     });
 
