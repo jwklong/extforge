@@ -118,7 +118,7 @@ javascriptGenerator.valueToCode = function(block, name, order = 0) {
 javascriptGenerator.workspaceToCode = function(workspace) {
     javascriptGenerator.init(workspace)
 
-    const allBlocks = workspace.getTopBlocks(true).filter(v => !v.previousConnection);
+    const allBlocks = workspace.getTopBlocks(true).filter(v => !v.previousConnection && !v.outputConnection);
   
     // order blocks
     const orderedBlocks = allBlocks.sort((a, b) => b.order - a.order);
