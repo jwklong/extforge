@@ -85,7 +85,7 @@ function register() {
     }, (block) => {
         let root = block.getRootBlock()
         if (!(root.type == `${categoryPrefix}define` && root.blockId_ == block.blockId_)) {
-            return `()`
+            return `null`
         }
 
         return `args["${block.fieldId_}"]`
