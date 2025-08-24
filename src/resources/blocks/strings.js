@@ -277,6 +277,42 @@ function register() {
         return [`${code}`, 0];
     })
 
+    registerBlock(`${categoryPrefix}replace`, {
+        message0: 'replace %1 in %2 with %3',
+        args0: [
+            {
+                "type": "field_input",
+                "name": "X",
+                "check": "String",
+                "text": "foo",
+                "acceptsBlocks": true
+            },
+            {
+                "type": "field_input",
+                "name": "Y",
+                "check": "String",
+                "text": "bar",
+                "acceptsBlocks": true
+            },
+            {
+                "type": "field_input",
+                "name": "Z",
+                "check": "String",
+                "text": "baz",
+                "acceptsBlocks": true
+            }
+        ],
+        output: "String",
+        inputsInline: true,
+        colour: categoryColor
+    }, (block) => {
+        const X = javascriptGenerator.valueToCode(block, 'X');
+        const Y = javascriptGenerator.valueToCode(block, 'Y');
+        const Z = javascriptGenerator.valueToCode(block, 'Z');
+        const code = `(${Y}).replaceAll(${X}, ${Z})`;
+        return [`${code}`, 0];
+    })
+
     const strings_join_mutator = {
         items_: 0,
 

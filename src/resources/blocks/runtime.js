@@ -80,6 +80,46 @@ function register() {
         return `${code}\n`;
     })
 
+    registerBlock(`${categoryPrefix}beforetick`, {
+        message0: 'before project tick %1 %2',
+        args0: [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_statement",
+                "name": "BLOCKS"
+            }
+        ],
+        inputsInline: true,
+        order: 1,
+        colour: categoryColor
+    }, (block) => {
+        const BLOCKS = javascriptGenerator.statementToCode(block, 'BLOCKS');
+        const code = `Scratch.vm.on('BEFORE_EXECUTE', (async () => { ${BLOCKS} }));`;
+        return `${code}\n`;
+    })
+
+    registerBlock(`${categoryPrefix}aftertick`, {
+        message0: 'after project tick %1 %2',
+        args0: [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_statement",
+                "name": "BLOCKS"
+            }
+        ],
+        inputsInline: true,
+        order: 1,
+        colour: categoryColor
+    }, (block) => {
+        const BLOCKS = javascriptGenerator.statementToCode(block, 'BLOCKS');
+        const code = `Scratch.vm.on('AFTER_EXECUTE', (async () => { ${BLOCKS} }));`;
+        return `${code}\n`;
+    })
+
     registerBlock(`${categoryPrefix}turboget`, {
         message0: 'turbo mode enabled?',
         args0: [],

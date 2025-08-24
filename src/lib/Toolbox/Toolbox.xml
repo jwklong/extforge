@@ -79,6 +79,7 @@
         <block type="strings_length" />
         <block type="strings_contains" />
         <block type="strings_amountof" />
+        <block type="strings_replace" />
         <sep gap="48"></sep>
         <block type="strings_log" />
     </category>
@@ -153,6 +154,8 @@
     -->
     <category name="Runtime" colour="#aaa">
         <block type="runtime_onstart" />
+        <block type="runtime_beforetick" />
+        <block type="runtime_aftertick" />
         <block type="runtime_onstop" />
         <sep gap="48"></sep>
         <block type="runtime_start" />
