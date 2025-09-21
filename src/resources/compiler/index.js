@@ -50,7 +50,7 @@ const ExtForge = {
         set(x, y) {
             return new Vector(x ?? this.x, y ?? this.y)
         }
-    }
+    },
 
     Utils: {
         setList: (list, index, value) => {
