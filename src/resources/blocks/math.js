@@ -150,6 +150,33 @@ function register() {
         const code = `(${X} / ${Y})`;
         return [`${code}`, 0];
     })
+    registerBlock(`${categoryPrefix}modulo`, {
+        message0: '%1 mod %2',
+        args0: [
+            {
+                "type": "field_number",
+                "name": "X",
+                "check": "Number",
+                "value": 1,
+                "acceptsBlocks": true
+            },
+            {
+                "type": "field_number",
+                "name": "Y",
+                "check": "Number",
+                "value": 1,
+                "acceptsBlocks": true
+            }
+        ],
+        output: "Number",
+        inputsInline: true,
+        colour: categoryColor
+    }, (block) => {
+        const X = javascriptGenerator.valueToCode(block, 'X');
+        const Y = javascriptGenerator.valueToCode(block, 'Y');
+        const code = `(${X} % ${Y})`;
+        return [`${code}`, 0];
+    })
     registerBlock(`${categoryPrefix}pow`, {
         message0: '%1 ^ %2',
         args0: [
